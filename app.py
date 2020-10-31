@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 import pymysql.cursors
 
 
@@ -80,6 +80,30 @@ def update():
         mysql.connection.commit()
         return redirect(url_for('Index'))
 
+@app.route("/login", methods=["POST", "GET"])
+def login():
+    if request.method == "POST":
+        login_ = request.form["login"]
+        psw_ = request.form['psw']
+        cur = mysql.cursor()
+        cur.execute("SELECT  * FROM utilisateur")
+        data = cur.fetchall()
+        cur.close()
+        for i in data:
+            print (i[3])
+            if(i[3]==login_ and i[4]==psw_):
+                session['login'] = login_
+                session['psw'] = psw_
+                return render_template('index2.html', login=login_, psw = psw_ , )
 
+        return render_template("index.html")
+    else:
+        return render_template("index.html")
+
+@app.route('/deconnexion')
+def deconnexion():
+    session.pop('login', None)
+    session.pop('psw', None)
+    return render_template("index.html")
 if __name__ == "__main__":
     app.run(debug=True)
