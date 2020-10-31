@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% block title %}{{ titre }}{% endblock %}
+{% block content %}
+<style>
+    .foot
+    {
+        padding: 30px;
+         position:absolute;
+         width:100%;
+         background-color: #E0E0E0;
+    }
+</style>
+    <div class="">
+
+    <div class="well text-center">
+
+        <h1>Bienvenue sur la plateforme de gestion d'incidents</h1>
+
+    </div>
+</div>
+    <a href="probleme"><button class="btn btn-primary">consulter la liste des problemes</button></a>
+
+    <section class="pt-5">
+        <div class="container mb-5">
+            <div class="row">
+                <div class="col-sm-5 offset-1" style="border-right: 3px solid black;">
+                    <h4 class="font-weight-bold pb-4">inscription</h4>
+                    <form>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="inputEmail4">Nom</label>
+      <input type="text" class="form-control" id="inputEmail4" placeholder="nom">
+    </div>
+    <div class="form-group col-md-6">
+      <label for="inputPassword4">Prenom</label>
+      <input type="password" class="form-control" id="inputPassword4" placeholder="Prenom">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputAddress">E-mail</label>
+    <input type="email" class="form-control" id="inputAddress" placeholder="email@exemple.com">
+  </div>
+ <div class="form-group">
+    <label for="inputAddress">mot de passe</label>
+    <input type="password" class="form-control" id="inputAddress" placeholder="">
+  </div>
+
+  <div class="form-group">
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" id="gridCheck">
+      <label class="form-check-label" for="gridCheck">
+        Check me out
+      </label>
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary">S'inscrire</button>
+</form>
+                </div>
+
+                <div class="col-sm-5">
+                    <h4 class="font-weight-bold pl-5 pb-5" style="float: right">connexion</h4>
+                    <div class="pt-5 m-3 col-12 pl-5">
+                       <form>
+  <div class="form-group">
+    <label for="exampleFormControlInput1">adresse mail</label>
+    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+  </div>
+   <div class="form-group">
+    <label for="exampleFormControlInput1">mot de passe</label>
+    <input type="password" class="form-control" id="exampleFormControlInput1" placeholder="">
+  </div>
+      <button type="submit" class="btn btn-primary">Se connecter</button>
+</form>
+                    </div>
+
+                    <div class="col-7 offset-3">
+                      <small class="text-primary">condition generale d'utilisation
+                        politique d'utilisations des cookies
+                      </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<section class="foot">
+    <div class="container">
+
+        <div class="row">
+            <div class=" col-3">
+
+                <p>
+                    START A PROJECT <br>
+                    We are ready for the challenge <br>
+                    adobexd@mail.com
+                </p>
+            </div>
+            <div class=" col-3">
+                <p>
+                    SAY HELLO <br>
+                    497 Evergreen Rd. Roseville, CA 95673 <br>
+                    +44 345 678 903
+                </p>
+            </div>
+            <div class=" col-3">
+
+                <p>
+                    JOBS <br>
+                    we are always looking for talent <br>
+                    adobexd@mail.com
+                </p>
+
+            </div>
+            <div class="col-3">
+
+                <a href="#"><img id="icon1" class="" src="/assets/img/icons/Twitter.png" style="" alt=""></a>
+                <a href="#"><img id="icon2" class="" src="/assets/img/icons/Facebook.png" alt=""></a>
+                <a href="#"><img class="" src="/assets/img/icons/instagram.png" alt=""></a>
+            </div>
+        </div>
+
+    </div>
+</section>
+{% endblock %}
