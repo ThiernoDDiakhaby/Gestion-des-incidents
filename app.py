@@ -28,9 +28,8 @@ def probleme():
     cur.execute("SELECT  * FROM probleme")
     data = cur.fetchall()
     cur.close()
-
-    return render_template('index2.html', probleme=data )
-
+    #login = request.form['login']
+    return render_template('index2.html', probleme=data, login=session['login'])
 
 
 @app.route('/insert', methods = ['POST'])
@@ -80,7 +79,7 @@ def update():
         mysql.connection.commit()
         return redirect(url_for('Index'))
 
-@app.route("/login", methods=["POST", "GET"])
+@app.route("/login", methods=['POST'])
 def login():
     if request.method == "POST":
         login_ = request.form["login"]
@@ -94,7 +93,8 @@ def login():
             if(i[3]==login_ and i[4]==psw_):
                 session['login'] = login_
                 session['psw'] = psw_
-                return render_template('index2.html', login=login_, psw = psw_ , )
+
+                return redirect(url_for("probleme"))
 
         return render_template("index.html")
     else:
