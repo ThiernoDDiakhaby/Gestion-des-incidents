@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 import pymysql.cursors
+from datetime import date
 
 
 
@@ -18,18 +19,46 @@ mysql = pymysql.connect(
         database="gestion_incident"
     )
 
+today = date.today()
+today = today.strftime("%Y-%m-%d")
+
+
+def creeation_sesion(login,psw):
+    mycursor = mysql.cursor()
+    mycursor.execute("SELECT * FROM `utilisateur` WHERE (`login`= '%s') and (`psw`= '%s')"%(login,psw))
+    r1 = mycursor.fetchone()
+    Tab_U = []
+    while r1:
+        Tab_U.append(r1)
+        r1 = mycursor.fetchone()
+    session['id_u']=Tab_U[0][0]
+    session['prenom'] = Tab_U[0][1]
+    session['nom'] = Tab_U[0][2]
+    session['login'] = Tab_U[0][3]
+    session['psw'] = Tab_U[0][4]
+    session['role'] = Tab_U[0][5]
+    return True
+
 #mysql = MySQL(app)
 @app.route('/')
 def home():
-    return render_template('index.html')
+    return redirect(url_for('login'))
 @app.route('/probleme')
 def probleme():
+    try:
+        login=session['login']
+    except:
+        return redirect(url_for('login'))
     cur = mysql.cursor()
     cur.execute("SELECT  * FROM probleme")
     data = cur.fetchall()
     cur.close()
     #login = request.form['login']
-    return render_template('index2.html', probleme=data, login=session['login'])
+    return render_template('index2.html', probleme=data, login=login, today=today)
+
+
+
+
 
 
 @app.route('/insert', methods = ['POST'])
@@ -37,14 +66,14 @@ def insert():
 
     if request.method == "POST":
         flash("Probleme enregistreé avec succes")
-        severité = request.form['severité']
-        description=request.form['description']
+        severite = request.form['severite']
+        description = request.form['description']
         date_p = request.form['date_p']
-        id_user  = request.form['id_user']
-        cur = mysql.connection.cursor()
-        cur.execute("INSERT INTO probleme (severité, description, date_p,id_user) VALUES (%s, %s, %s, %s)", (severité, description, date_p,id_user))
-        mysql.connection.commit()
-        return redirect(url_for('Index'))
+        id_user = request.form['id_user']
+        cur = mysql.cursor()
+        cur.execute("insert into `probleme` (`id_user`, `severite`,`description`, `date_p`) values ('%s','%s','%s','%s')" % (id_user, severite, description, date_p))
+        mysql.commit()
+        return redirect(url_for('probleme'))
 
 
 
@@ -53,7 +82,7 @@ def insert():
 def delete(id_data):
     flash("l'incident a été bien enregistré")
     cur = mysql.connection.cursor()
-    cur.execute("DELETE FROM probleme WHERE id_p=%s", (id_data,))
+    cur.execute("DELETE FROM probleme WHERE id_p=%s", (id_data))
     mysql.connection.commit()
     return redirect(url_for('Index'))
 
@@ -62,24 +91,31 @@ def delete(id_data):
 
 @app.route('/update',methods=['POST','GET'])
 def update():
-
     if request.method == 'POST':
-        id_data = request.form['id_p']
-        severité = request.form['severité']
         description = request.form['description']
         date_p = request.form['date_p']
-        id_user = request.form['id_user']
-        cur = mysql.connection.cursor()
-        cur.execute("""
-               UPDATE probleme
-               SET severité=%s, description=%s, date_p=%s,id_user=%s
-               WHERE id_p=%s"
-            """, (severité, description, date_p, id_user,id_data))
+        id_u = session['id_u']
+        severite = request.form['severite']
+        id_p = request.form['id_p']
+        cur = mysql.cursor()
+        cur.execute("UPDATE `probleme` SET `id_user`=%s,`description`=%s,`severite`=%s, `date_p`=%s Where `probleme`.`id_p`=%s" , (id_u, description, severite, date_p, id_p))
+        mysql.commit()
         flash("Modification réussie avec succés")
-        mysql.connection.commit()
-        return redirect(url_for('Index'))
+        return redirect(url_for('probleme'))
 
-@app.route("/login", methods=['POST'])
+
+
+
+
+
+
+
+
+
+
+
+
+@app.route("/login", methods=['POST','GET'])
 def login():
     if request.method == "POST":
         login_ = request.form["login"]
@@ -91,11 +127,8 @@ def login():
         for i in data:
             print (i[3])
             if(i[3]==login_ and i[4]==psw_):
-                session['login'] = login_
-                session['psw'] = psw_
-
-                return redirect(url_for("probleme"))
-
+                if(creeation_sesion(login_,psw_)):
+                    return redirect(url_for("probleme"))
         return render_template("index.html")
     else:
         return render_template("index.html")
@@ -104,9 +137,8 @@ def login():
 def deconnexion():
     session.pop('login', None)
     session.pop('psw', None)
-    return render_template("index.html")
-if __name__ == "__main__":
-    app.run(host='127.0.0.1', port=8005, debug=True)
+    return redirect(url_for('login'))
+
 
 @app.route('/inscrire', methods = ['POST'])
 def insciption():
@@ -117,8 +149,7 @@ def insciption():
       psw = request.form["psw"]
 
       cur = mysql.cursor()
-      cur.execute("INSERT INTO utilisateur (prenom, nom, Login,psw,role) VALUES (%s, %s, %s, %s,%s)",
-                (prenom, nom, mail, psw,"user"))
+      cur.execute("INSERT INTO utilisateur (prenom, nom, Login,psw,role) VALUES (%s, %s, %s, %s,%s)", (prenom, nom, mail, psw,"user"))
       mysql.commit()
       print("insertion reussi")
       return render_template("index.html")
@@ -127,3 +158,6 @@ def insciption():
         print('connexxion non reussi')
         return render_template("index.html")
 
+
+if __name__ == "__main__":
+    app.run(host='127.0.0.1', port=8005, debug=True)

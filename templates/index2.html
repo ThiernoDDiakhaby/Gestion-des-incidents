@@ -14,7 +14,7 @@
 
 
 
-            <h2> Liste des incidents<button type="button" class="btn btn-success  pull-right" data-toggle="modal" data-target="#myModal">Signaler un probleme</button></h2>
+      <h2> Liste des incidents<!--      <button type="button" class="btn btn-success  pull-right" data-toggle="modal" data-target="#myModal2">afficher mes Siglalements</button>--><button type="button" class="btn btn-success  pull-right" data-toggle="modal" data-target="#myModal">Signaler un probleme</button></h2>
 
 
     {%with messages = get_flashed_messages()%}
@@ -103,7 +103,7 @@
 
                   <label>severité:</label>
 
-                  <input type="text" class="form-control" name="severité" value="{{row.1}}">
+                  <input type="text" class="form-control" name="severite" value="{{row.1}}">
 
 
                </div>
@@ -133,7 +133,7 @@
 
                   <label>id_user:</label>
 
-                  <input type="text" class="form-control" name="id_user" value="{{row.4}}">
+                  <input type="text" readonly class="form-control-plaintext" id="id_u" value="{{session['id_u']}}">
 
 
                </div>
@@ -146,7 +146,7 @@
 
 
                </div>
-
+                              <input type="text" class="invisible" name="id_p" value="{{row.0}}">
 
             </form>
 
@@ -217,7 +217,7 @@
 
 
                   <label>severité:</label>
-                  <input type="text" class="form-control" name="severité" required="1">
+                  <input type="text" class="form-control" name="severite" required="1">
 
 
                </div>
@@ -245,7 +245,7 @@
 
                   <label for="start">Date:</label>
                   <input type="date" id="start" name="date_p"
-                  value="2018-07-22">
+                  value="{{today}}">
 
                </div>
           
@@ -269,10 +269,7 @@
 
 
             <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
-
-
          </div>
-
 
       </div>
 
@@ -282,16 +279,158 @@
 
 </div>
 
+<!--A compléter pour afficher les données signaler par l'utilisateur-->
+<!--<div id="myModal2" class="modal fade" role="dialog">-->
 
 
-
-  {% include "footer.html" %}
-    </div>
+<!--   <div class="modal-dialog">-->
 
 
-</div>
+<!--      <div class="modal-content">-->
 
 
+<!--         <div class="modal-header">-->
+
+
+<!--            <button type="button" class="close" data-dismiss="modal">&times;</button>-->
+<!--                         <h4 class="modal-title">Vos Signalements</h4>-->
+<!--        </div>-->
+<!--            <div class="modal-body">-->
+<!--                {% for row in probleme %}-->
+<!--                                <tr>-->
+<!--                                    <td>{{row.0}}</td>-->
+<!--                                    <td>{{row.1}}</td>-->
+<!--                                    <td>{{row.2}}</td>-->
+<!--                                    <td>{{row.3}}</td>-->
+<!--                                    <td>-->
+
+
+<!--                               <a href="/update/{{row.0}}" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modaledit{{row.0}}">Modifier</a>-->
+<!--                                <a href="/delete/{{ row.0 }}" class="btn btn-danger btn-xs" onclick="return confirm('vous etes sur de vouloir supprimer?')">Supprimer</a>-->
+
+<!--                                    </td>-->
+
+<!--                                </tr>-->
+
+<!--                                <div id="modaledit{{row.0}}" class="modal fade" role="dialog">-->
+
+
+<!--                   <div class="modal-dialog">-->
+
+
+<!--                      <div class="modal-content">-->
+
+
+<!--                         <div class="modal-header">-->
+
+
+<!--                            <button type="button" class="close" data-dismiss="modal">&times;</button>-->
+
+
+<!--                            <h4 class="modal-title">Modifier</h4>-->
+
+
+<!--                         </div>-->
+
+
+<!--                         <div class="modal-body">-->
+
+
+<!--                            <form action="{{ url_for('update') }}" method="POST">-->
+
+
+<!--                               <div class="form-group">-->
+
+
+<!--                                  <label>severité:</label>-->
+
+<!--                                  <input type="text" class="form-control" name="severite" value="{{row.1}}">-->
+
+
+<!--                               </div>-->
+
+<!--                               <div class="form-group">-->
+
+
+<!--                                  <label>Description:</label>-->
+
+<!--                                  <input type="text" class="form-control" name="description" value="{{row.2}}">-->
+
+
+<!--                               </div>-->
+<!--                               <div class="form-group">-->
+
+
+<!--                                  <label>date:</label>-->
+
+<!--                                  <input type="date" id="start" name="date_p"-->
+<!--                                  value="{{row.3}}">-->
+
+
+<!--                               </div>-->
+
+<!--                               <div class="form-group">-->
+
+
+<!--                                  <label>id_user:</label>-->
+
+<!--                                  <input type="text" class="form-control" name="id_user" value="{{row.4}}">-->
+
+
+<!--                               </div>-->
+
+
+<!--                               <div class="form-group">-->
+
+
+<!--                                  <button class="btn btn-primary" type="sbumit">Modifier</button>-->
+
+
+<!--                               </div>-->
+<!--                                              <input type="text" class="invisible" name="id_p" value="{{row.0}}">-->
+
+<!--                            </form>-->
+
+
+<!--                         </div>-->
+
+
+<!--                         <div class="modal-footer">-->
+
+
+<!--                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+
+
+<!--                         </div>-->
+
+
+<!--                      </div>-->
+
+
+<!--                   </div>-->
+
+
+<!--                </div>-->
+<!--                                                {% endfor  %}-->
+<!--            </div>-->
+
+<!--              <div class="modal-footer">-->
+
+
+<!--            <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>-->
+
+
+<!--             </div>-->
+<!--      </div>-->
+
+
+<!--   </div>-->
+
+
+<!--</div>-->
+
+
+{% include "footer.html" %}
 {% endblock %}
 
 
