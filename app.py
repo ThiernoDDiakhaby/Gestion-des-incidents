@@ -106,4 +106,24 @@ def deconnexion():
     session.pop('psw', None)
     return render_template("index.html")
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host='127.0.0.1', port=8005, debug=True)
+
+@app.route('/inscrire', methods = ['POST'])
+def insciption():
+    if request.method == "POST":
+      nom = request.form["nom"]
+      prenom = request.form["prenom"]
+      mail = request.form["mail"]
+      psw = request.form["psw"]
+
+      cur = mysql.cursor()
+      cur.execute("INSERT INTO utilisateur (prenom, nom, Login,psw,role) VALUES (%s, %s, %s, %s,%s)",
+                (prenom, nom, mail, psw,"user"))
+      mysql.commit()
+      print("insertion reussi")
+      return render_template("index.html")
+
+    else:
+        print('connexxion non reussi')
+        return render_template("index.html")
+
