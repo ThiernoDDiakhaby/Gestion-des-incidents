@@ -61,13 +61,9 @@
                     <td>{{row.1}}</td>
                     <td>{{row.2}}</td>
                     <td>{{row.3}}</td>
-                    <td>
-
-
-               <a href="/update/{{row.0}}" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modaledit{{row.0}}">Modifier</a>
-                <a href="/delete/{{ row.0 }}" class="btn btn-danger btn-xs" onclick="return confirm('vous etes sur de vouloir supprimer?')">Supprimer</a>
-
-                    </td>
+                    {% if role == "admin" %}
+                        {% include 'action.html' %}
+                    {%endif%}
 
                 </tr>
 
@@ -128,7 +124,7 @@
 
                </div>
 
-               <div class="form-group">
+               <!--<div class="form-group">
 
 
                   <label>id_user:</label>
@@ -136,7 +132,7 @@
                   <input type="text" readonly class="form-control-plaintext" id="id_u" value="{{session['id_u']}}">
 
 
-               </div>
+               </div>-->
 
 
                <div class="form-group">
@@ -231,15 +227,14 @@
 
                </div>
 
-
-                <div class="form-group">
+                <!--<div class="form-group">
 
 
                   <label>id_user:</label>
                   <input type="text" class="form-control" name="id_user" required="1">
 
 
-               </div>
+               </div>-->
 
                <div class="form-group">
 

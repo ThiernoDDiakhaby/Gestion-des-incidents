@@ -54,7 +54,7 @@ def probleme():
     data = cur.fetchall()
     cur.close()
     #login = request.form['login']
-    return render_template('index2.html', probleme=data, login=login, today=today)
+    return render_template('index2.html', probleme=data, login=login, today=today,nom=session['nom'], prenom=session['prenom'], role=session['role'])
 
 
 
@@ -69,7 +69,8 @@ def insert():
         severite = request.form['severite']
         description = request.form['description']
         date_p = request.form['date_p']
-        id_user = request.form['id_user']
+        #id_user = request.form['id_user']
+        id_user = session['id_u']
         cur = mysql.cursor()
         cur.execute("insert into `probleme` (`id_user`, `severite`,`description`, `date_p`) values ('%s','%s','%s','%s')" % (id_user, severite, description, date_p))
         mysql.commit()
