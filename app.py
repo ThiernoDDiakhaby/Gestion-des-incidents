@@ -15,7 +15,7 @@ app.config['MYSQL_DATABASE'] = 'gestion_incident'"""
 mysql = pymysql.connect(
         host="localhost",
         user="root",
-        password="",
+        password="passer123",
         database="gestion_incident"
     )
 
