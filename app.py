@@ -80,13 +80,15 @@ def insert():
 
 @app.route('/delete/<string:id_data>', methods = ['GET'])
 def delete(id_data):
-    #flash("l'incident a été bien enregistré")
-    cur = mysql.cursor()
-    cur.execute("DELETE FROM probleme WHERE id_p=%s", (id_data))
-    mysql.commit()
-    return redirect(url_for('probleme'))
-
-
+    if session['role']== "admin":
+        flash("l'incident a bien été supprimé")
+        cur = mysql.cursor()
+        cur.execute("DELETE FROM probleme WHERE id_p=%s", (id_data))
+        mysql.commit()
+        return redirect(url_for('probleme'))
+    else:
+        flash("Supprésion non autorisé")
+        return redirect(url_for('probleme'))
 
 
 @app.route('/update',methods=['POST','GET'])
